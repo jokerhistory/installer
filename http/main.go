@@ -77,7 +77,7 @@ func UploadBinaryFile(filePath, url string) error {
 	//main()
 	func main() {
 	url := "https://build.opshub.sh/assembling/build?image=test-java-gradle-testng&tag=latest&registry=hub.opshub.sh&namespace=containerops"
-	UploadBinaryFile("./coala.tar",url)
+	UploadBinaryFile("./checkstyle.tar",url)
 		/////////////////////////////////
 		// if err := cmd.RootCmd.Execute(); err != nil {
 		// 	fmt.Fprintf(os.Stderr, err.Error())
