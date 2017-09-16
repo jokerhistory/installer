@@ -5,54 +5,29 @@ import (
 	"bytes"
 	"os"	
 	// "encoding/json"  
-	//"mime/multipart"	
+	"mime/multipart"	
     "log"  
     "net/http"  
 	"fmt"  
-	//"io"
-	"flag"
-	
+	"io"
+//	"io/ioutil"
+
 )  
 
-var tag ="latest"
-var registry="hub.opshub.sh"
-var namespace ="containerops"
-var api_url ="https://build.opshub.sh/assembling/build?"
-func main() {
-	//url := "https://build.opshub.sh/assembling/build?image=test-java-gradle-testng&tag=latest&registry=hub.opshub.sh&namespace=containerops"
 
-
-    //port := flag.String("port", ":8080", "http listen port")
-    var image string
-    flag.StringVar(&image, "image", "test_image", "image name")
- 
-    flag.Parse()
- 
-  //  fmt.Println("port:", *port)
-	fmt.Println("image:", image)
-	 imagename:= image
-	 url := api_url
-     buf := bytes.NewBufferString(url)
-	 buf.Write([]byte("image="))
-	 buf.Write([]byte(imagename))
-	 buf.Write([]byte("&tag="))
-	 buf.Write([]byte(tag))
-	 buf.Write([]byte("&tag="))
-	 buf.Write([]byte(tag))
-	 buf.Write([]byte("&registry="))
-	 buf.Write([]byte(registry))
-	 buf.Write([]byte("&namespace="))
-	 buf.Write([]byte(namespace))
-	 fmt.Println(buf.String()) //hello roc
-		UploadBinaryFile("./coala.tar",buf.String())
-	}
 // Upload binary file to the Dockyard service.
+//func UploadBinaryFile(filePath, domain, namespace, repository, tag string) error {
 func UploadBinaryFile(filePath, url string) error {
 		
 	if f, err := os.Open(filePath); err != nil {
 		return err
 	} else {
 		defer f.Close()
+
+		// if req, err := http.NewRequest(http.MethodPost,
+		// 	fmt.Sprintf("https://%s/binary/v1/%s/%s/binary/%s/%s",
+		// 		domain, namespace, repository, tag, filepath.Base(filePath)), f); err != nil {
+		// 	return err
 		if req, err := http.NewRequest(http.MethodPost,
 			url, f); err != nil {
 			return err
@@ -94,7 +69,6 @@ func UploadBinaryFile(filePath, url string) error {
 	return nil
 }
 
-<<<<<<< HEAD
 	//init()
 	func init() {
 	
@@ -103,7 +77,7 @@ func UploadBinaryFile(filePath, url string) error {
 	//main()
 	func main() {
 	url := "https://build.opshub.sh/assembling/build?image=test-java-gradle-testng&tag=latest&registry=hub.opshub.sh&namespace=containerops"
-	UploadBinaryFile("./checkstyle.tar",url)
+	UploadBinaryFile("./coala.tar",url)
 		/////////////////////////////////
 		// if err := cmd.RootCmd.Execute(); err != nil {
 		// 	fmt.Fprintf(os.Stderr, err.Error())
@@ -205,7 +179,55 @@ func UploadBinaryFile(filePath, url string) error {
 		return 
 	}
 	
-=======
->>>>>>> 734a33ff6065febc90a200cbd4acb08f6c3df2a0
 
+// func DoBytesPost(url string, data []byte) ([]byte, error) {
 	
+// 		body := bytes.NewReader(data)
+// 		request, err := http.NewRequest(POST_METHOD, url, body)
+// 		if err != nil {
+// 			log.Println("http.NewRequest,[err=%s][url=%s]", err, url)
+// 			return []byte(""), err
+// 		}
+// 		request.Header.Set("Connection", "Keep-Alive")
+// 		var resp *http.Response
+// 		resp, err = http.DefaultClient.Do(request)
+// 		if err != nil {
+// 			log.Println("http.Do failed,[err=%s][url=%s]", err, url)
+// 			return []byte(""), err
+// 		}
+// 		defer resp.Body.Close()
+// 		b, err := ioutil.ReadAll(resp.Body)
+// 		if err != nil {
+// 			log.Println("http.Do failed,[err=%s][url=%s]", err, url)
+// 		}
+// 		return b, err
+// 	}
+func newfileUploadRequest(uri string, params map[string]string, paramName, path string) (*http.Request, error) {
+    file, err := os.Open(path)
+    if err != nil {
+        return nil, err
+    }
+    defer file.Close()
+
+    body := &bytes.Buffer{}
+    writer := multipart.NewWriter(body)
+    part, err := writer.CreateFormFile(paramName, path)
+    if err != nil {
+        return nil, err
+    }
+    _, err = io.Copy(part, file)
+
+    for key, val := range params {
+        _ = writer.WriteField(key, val)
+    }
+    err = writer.Close()
+    if err != nil {
+        return nil, err
+    }
+    request, err := http.NewRequest("POST", uri, body)
+	//request.Header.Set("Content-Type", writer.FormDataContentType())
+	// request.Header.Set("Content-Type", writer.FormDataContentType())
+	
+	
+    return request, err
+}
