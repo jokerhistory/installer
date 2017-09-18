@@ -3,10 +3,12 @@ MAINTAINER dian.li <lidian@huawei.com>
 RUN apt-get update && apt-get install -y tar git golang
 # Usage: WORKDIR /path
 RUN git clone https://github.com/Huawei/containerops.git
+#根据原地址 循环打包
 RUN cd  ~/containerops/component/python/
 RUN tar -cvf checkstyle.tar -C ./analysis/checkstyle/ .
+##打包后 调用 http bin  上传assebling 
 
 ADD  main.go main.go
-RUN go run main.go
+RUN go run main.go --image 参数
 
 
