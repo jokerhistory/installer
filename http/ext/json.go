@@ -1,31 +1,20 @@
 package json
 
 import (
-	//缓存IO
 	"encoding/json"
-	"fmt" //io 工具包
+	"fmt"
 	"os"
 )
 
-type ColorGroup struct {
-	ID     int
-	Name   string
-	Colors []string
+type Endpoint struct {
+	endpoint string
 }
 
-func Json2String() {
-	group := ColorGroup{
-		ID:     1,
-		Name:   "Reds",
-		Colors: []string{"Crimson", "Red", "Ruby", "Maroon"},
-	}
-	b, err := json.Marshal(group)
+//{"endpoint":"hub.opshub.sh/containerops/test-java-gradle-test:latest"}
+func Json2String(endpoint string) {
+	s, err := json.Marshal(endpoint)
 	if err != nil {
 		fmt.Println("error:", err)
 	}
-	os.Stdout.Write(b)
-
-	//							Output:
-	//							{"ID":1,"Name":"Reds","Colors":["Crimson","Red","Ruby","Maroon"]}
-
+	os.Stdout.Write(s)
 }

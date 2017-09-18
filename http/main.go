@@ -11,7 +11,7 @@ import (
 	"log"
 	"net/http"
 	//"ioi"
-	"ext/json"
+
 	"flag"
 )
 
@@ -24,8 +24,6 @@ func main() {
 	//url := "https://build.opshub.sh/assembling/build?image=test-java-gradle-testng&tag=latest&registry=hub.opshub.sh&namespace=containerops"
 
 	//port := flag.String("port", ":8080", "http listen port")
-	json.Json2String()
-	return
 	var image string
 	flag.StringVar(&image, "image", "test_image", "image name")
 	var path string
@@ -84,6 +82,7 @@ func UploadBinaryFile(filePath, url string) error {
 						fmt.Println(resp.StatusCode)
 						fmt.Println(resp.Header)
 						fmt.Println(body)
+						json.Json2String(body.String())
 						return nil
 					}
 				case http.StatusBadRequest:
