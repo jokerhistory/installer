@@ -7,7 +7,7 @@ import (
 	"log"
 	"net/http"
 	"flag"
-	"github.com/installer/http/ext"
+	"ext"
 )
 
 var tag = "latest"
