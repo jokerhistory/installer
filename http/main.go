@@ -3,16 +3,11 @@ package main
 import (
 	"bytes"
 	"os"
-
-	"github.com/installer/http/ext"
-	// "encoding/json"
-	//"mime/multipart"
 	"fmt"
 	"log"
 	"net/http"
-	//"ioi"
-
 	"flag"
+	"github.com/installer/http/ext"
 )
 
 var tag = "latest"
@@ -21,11 +16,8 @@ var namespace = "containerops"
 var api_url = "https://build.opshub.sh/assembling/build?"
 
 func main() {
-	
-	ext.Buildtp()
-	return
-	//url := "https://build.opshub.sh/assembling/build?image=test-java-gradle-testng&tag=latest&registry=hub.opshub.sh&namespace=containerops"
 
+	//url := "https://build.opshub.sh/assembling/build?image=test-java-gradle-testng&tag=latest&registry=hub.opshub.sh&namespace=containerops"
 	//port := flag.String("port", ":8080", "http listen port")
 	var image string
 	flag.StringVar(&image, "image", "test_image", "image name")
@@ -50,7 +42,6 @@ func main() {
 	buf.Write([]byte("&namespace="))
 	buf.Write([]byte(namespace))
 	fmt.Println(buf.String()) //hello roc
-
 	UploadBinaryFile(path, buf.String())
 }
 
@@ -85,7 +76,12 @@ func UploadBinaryFile(filePath, url string) error {
 						fmt.Println(resp.StatusCode)
 						fmt.Println(resp.Header)
 						fmt.Println(body)
-						ext.Json2String(body.String())
+						//  jsonobj := ext.Json2String(body.String())
+						var jsonobj ext.Image 
+						jsonobj = ext.Json2obj(body.String())
+						fmt.Println(jsonobj)
+						ext.Buildtp(jsonobj.Endpoint)
+
 						return nil
 					}
 				case http.StatusBadRequest:

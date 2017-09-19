@@ -1,11 +1,11 @@
       -
-        name: build-python-analysis-coala
+        name: {{.}}
         title: Build python project with "make build"
         jobs:
         -
            type: component
            kubectl: python/test.yaml
-           endpoint: {{.}}hub.opshub.sh/containerops/analysis_java_gradle_checkstyle
+           endpoint: hub.opshub.sh/containerops/{{.}}
            resources:
              cpu: 2
              memory: 4G

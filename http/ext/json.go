@@ -3,22 +3,25 @@ package ext
 import (
 	"encoding/json"
 	"fmt"
-	"os"
 )
 
-type Endpoint struct {
-	endpoint string
+type Image struct {
+	Endpoint string
 }
 
 //{"endpoint":"hub.opshub.sh/containerops/test-java-gradle-test:latest"}
-func Json2String(endpoint string) {
-	s, err := json.Marshal(endpoint)
-	if err != nil {
-		fmt.Println("error:", err)
-	}
-	os.Stdout.Write(s)
+func Json2obj(jsonstring string) (obj Image) {
+	
+	Obj := Image{}
+	
+	json.Unmarshal([]byte(jsonstring), &Obj)
+		return  Obj
 }
 
-func createYML(url string){
-
+func Obj2Json(obj Image) (jsonstring string) {
+	s, err := json.Marshal(obj)
+	if err != nil {
+		fmt.Println("error:", err)
+	}	
+	return string(s)
 }

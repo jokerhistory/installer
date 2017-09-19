@@ -17,7 +17,7 @@ import (
 	var tpfoot = "./foot.yml"
 //func Etemplate(tpString string,value string) (string) {
 		
-func Buildtp() {
+func Buildtp(value string) {
 		var poutput = "./output.yml"
 		var tphead = "./head.yml"
 		var tpaction = "./action.yml"
@@ -34,17 +34,15 @@ func Buildtp() {
 		if err != nil {
 			panic(err)
 		}
-		err = tmpl.Execute(os.Stdout, "value") //将string与模板合成，变量name的内容会替换掉{{.}}
+		err = tmpl.Execute(os.Stdout, value) //将string与模板合成，变量name的内容会替换掉{{.}}
 		//合成结果放到os.Stdout里
 		if err != nil {
 			panic(err)
 		}
 
-		fmt.Println("bugString:", bugString)
-		
-	
+		fmt.Println("bugString:", bugString)	
 		WriteFile([]byte(bugString),poutput)
   
-
-//	return tpString
+//TO DO: upload to assebling
+//return tpString
 }
