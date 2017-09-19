@@ -21,6 +21,9 @@ var namespace = "containerops"
 var api_url = "https://build.opshub.sh/assembling/build?"
 
 func main() {
+	
+	ext.Ctemplate()
+	return
 	//url := "https://build.opshub.sh/assembling/build?image=test-java-gradle-testng&tag=latest&registry=hub.opshub.sh&namespace=containerops"
 
 	//port := flag.String("port", ":8080", "http listen port")
@@ -82,7 +85,7 @@ func UploadBinaryFile(filePath, url string) error {
 						fmt.Println(resp.StatusCode)
 						fmt.Println(resp.Header)
 						fmt.Println(body)
-						json.Json2String(body.String())
+						ext.Json2String(body.String())
 						return nil
 					}
 				case http.StatusBadRequest:

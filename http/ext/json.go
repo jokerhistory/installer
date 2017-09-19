@@ -1,4 +1,4 @@
-package json
+package ext
 
 import (
 	"encoding/json"
@@ -17,4 +17,8 @@ func Json2String(endpoint string) {
 		fmt.Println("error:", err)
 	}
 	os.Stdout.Write(s)
+}
+
+func createYML(url string){
+
 }
