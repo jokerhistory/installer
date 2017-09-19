@@ -22,7 +22,7 @@ var api_url = "https://build.opshub.sh/assembling/build?"
 
 func main() {
 	
-	ext.Ctemplate()
+	ext.Buildtp()
 	return
 	//url := "https://build.opshub.sh/assembling/build?image=test-java-gradle-testng&tag=latest&registry=hub.opshub.sh&namespace=containerops"
 

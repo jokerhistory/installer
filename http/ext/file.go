@@ -6,8 +6,8 @@ import (
 	//"fmt"   //io 工具包
 	"os"
 	"io/ioutil" //io 工具包
-	"io"
-	"bytes"
+	//"io"
+	//"bytes"
 )
 
 func check(e error) {
@@ -31,43 +31,42 @@ func checkFileIsExist(filename string) bool {
   from: http://www.isharey.com/?p=143
 */
 
-func WriteFile(header string,content string, foot string) {
-	//var wireteString = "测试n"
-	var filename = "./output.yml"
-	var tphead = "./head.yml"
-	var tpaction = "./action.yml"
-	var tpfoot = "./foot.yml"
+func ReadFile(readf string) ([]byte){
+		// fmt.Printf("写入 %d 个字节n", n);
+		b,err := ioutil.ReadFile(readf)
+		// actionb,err := ioutil.ReadFile(tpaction)
+		// footb,err := ioutil.ReadFile(tpfoot)
+		check(err)
+		
+		return b
+}
 	
-	 var f *os.File
-	// 	/*****************************  第三种方式:  使用 File(Write,WriteString) 写入文件 ***********************************************/
-	// //var d1 = []byte("")
-	isExist := checkFileIsExist(filename)
-	if(isExist){
-		f, err := os.OpenFile (filename, os.O_APPEND, 0666) //创建文件	
-		check(err)
-	}else
-	{
-		f, err := os.Create(filename) //创建文件	
-		check(err)
-	}
+func WriteFile(outputb []byte,outputf string) {
 
 	
-	 n, _ := io.WriteString(f, header) 
-	 n, _ : = io.WriteString(f, content) 
-	 n, _: = io.WriteString(f, foot) 
-	// fmt.Printf("写入 %d 个字节n", n);
-	fileb,err := ioutil.ReadFile(tphead)
-	actionb,err := ioutil.ReadFile(tpaction)
-	footb,err := ioutil.ReadFile(tpfoot)
+	//  var f *os.File
+	// // 	/*****************************  第三种方式:  使用 File(Write,WriteString) 写入文件 ***********************************************/
+	// // //var d1 = []byte("")
+	// isExist := checkFileIsExist(filename)
+	// if(isExist){
+	// 	f, err := os.OpenFile (filename, os.O_APPEND, 0666) //创建文件	
+	// 	check(err)
+	// }else
+	// {
+	// 	f, err := os.Create(filename) //创建文件	
+	// 	check(err)
+	// }
+
+
+
 	
-	
-	buf := bytes.NewBuffer(fileb)
-	buf.Write(actionb)
-	buf.Write(footb)
+	//buf := bytes.NewBuffer(outputb)
+	// buf.Write(actionb)
+	// buf.Write(footb)
 	
 	//var d1 = []byte(content);
 
-	err = ioutil.WriteFile(filename, buf.Bytes(), 0666)  //写入文件(字节数组)
+	err := ioutil.WriteFile(outputf,outputb, 0666)  //写入文件(字节数组)
 	check(err)
 	
 	//----------------
